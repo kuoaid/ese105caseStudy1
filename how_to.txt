@@ -1,0 +1,10 @@
+1. How to upload your changes
+a. be in the repositpory root file (where you can see this current file)
+b. copy and run the following commands one by one:
+git pull
+git add .
+git commit -m "<any message, like hi>"
+git push
+
+2. How to get the latest changes by others
+git pull
