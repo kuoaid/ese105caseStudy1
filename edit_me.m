@@ -7,4 +7,10 @@
 
 figure
 silhouette(CNTY_COVID, idx);
-title('Edit_me');
+title('Edit me');
+
+% put two vectors together to be a table
+%k2 = titles((idx5 == 2),:);
+%s2 = s((idx5 == 2),:);
+%ks2 = [k2,s2];
+%sks2 = sortrows(ks2,2);
