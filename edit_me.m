@@ -5,11 +5,15 @@
 
 load('COVIDbyCounty.mat');
 
-[idx,C] = kmeans(CNTY_COVID, 9, 'Replicates', 20);
+[idx,centroids] = kmeans(CNTY_COVID, 9, 'Replicates', 20);
+
+idxAsTable = array2table(idx);
+idxAsTable.Properties.VariableNames(1) = "kmeans_group";
+
+census_kmeans = [idxAsTable CNTY_CENSUS];
 
 figure
 silhouette(CNTY_COVID, idx);
-title('Edit me');
 
 %%
 CNTY_COVID_d = diff(CNTY_COVID')';
@@ -46,6 +50,7 @@ Mountain = Region_8;
 Pacific = Region_9;
 
 index_1_storage = zeros(225, 1);
+
 x = 1;
 for index = 1:225
     if idx(index) == 1
@@ -53,6 +58,4 @@ for index = 1:225
         x = x+1;
     end
 end    
-
-% Centriod_1 = 
 
