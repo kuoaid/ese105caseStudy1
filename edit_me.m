@@ -14,8 +14,8 @@ title('Edit me');
 %%
 CNTY_COVID_d = diff(CNTY_COVID')';
 CNTY_COVID_dd = diff(CNTY_COVID_d')';
-
-
+idx_CNTY_COVID_dd = [idx,CNTY_COVID_dd];
+sidx_CNTY_COVID_dd = sortrows(idx_CNTY_COVID_dd,1);
 
 
 %%
