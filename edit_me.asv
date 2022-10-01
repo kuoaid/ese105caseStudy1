@@ -11,13 +11,6 @@ figure
 silhouette(CNTY_COVID, idx);
 title('Edit me');
 
-
-% put two vectors together to be a table
-%k2 = titles((idx5 == 2),:);
-%s2 = s((idx5 == 2),:);
-%ks2 = [k2,s2];
-%sks2 = sortrows(ks2,2);
-
 Region_1 = CNTY_COVID(1:25,:);
 Region_2 = CNTY_COVID(26:50,:);
 Region_3 = CNTY_COVID(51:75,:);
@@ -39,13 +32,12 @@ Mountain = Region_8;
 Pacific = Region_9;
 
 index_1_storage = zeros(225, 1);
-x = 1;
+i = 1;
 for index = 1:225
     if idx(index) == 1
-        index_1_storage(x, 1) = index;
-        x = x+1;
+        index_1_storage(i, 1) = index;
+        i++;
     end
 end    
 
-% Centriod_1 = 
->>>>>>> 1d1e072b3cd76ab87429ed69ed854bed74b0278b
+Centriod_1 = 
