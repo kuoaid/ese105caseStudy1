@@ -2,3 +2,9 @@
 %2. run kmeans to get a column of groups (todo: design the kmeans)
 %3. concatenate group with cnty_covid or cnty_census(better)
 %note down additional work that we may need
+
+[idx,C] = kmeans(CNTY_COVID, 10, 'Replicates', 10);
+
+figure
+silhouette(CNTY_COVID, idx);
+title('Edit_me');
