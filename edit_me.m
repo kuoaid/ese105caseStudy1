@@ -11,7 +11,14 @@ figure
 silhouette(CNTY_COVID, idx);
 title('Edit me');
 
+%%
+CNTY_COVID_d = diff(CNTY_COVID')';
+CNTY_COVID_dd = diff(CNTY_COVID_d')';
 
+
+
+
+%%
 % put two vectors together to be a table
 %k2 = titles((idx5 == 2),:);
 %s2 = s((idx5 == 2),:);
@@ -48,4 +55,4 @@ for index = 1:225
 end    
 
 % Centriod_1 = 
->>>>>>> 1d1e072b3cd76ab87429ed69ed854bed74b0278b
+
