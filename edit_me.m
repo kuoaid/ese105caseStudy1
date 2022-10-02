@@ -2,23 +2,26 @@
 %2. run kmeans to get a column of groups (todo: design the kmeans)
 %3. concatenate group with cnty_covid or cnty_census(better)
 %note down additional work that we may need
-
+clear();
 load('COVIDbyCounty.mat');
 %%
 
-[idx,centroids] = kmeans(CNTY_COVID, 9, 'Replicates', 20);
 
-idxAsTable = array2table(idx);
-idxAsTable.Properties.VariableNames(1) = "kmeans_group";
-
-census_kmeans = [idxAsTable CNTY_CENSUS];
 
 % figure
 % silhouette(CNTY_COVID, idx);
 
 %%
-CNTY_COVID_d = diff(CNTY_COVID')';
-CNTY_COVID_dd = diff(CNTY_COVID_d')';
-idx_CNTY_COVID_dd = [idx,CNTY_COVID_dd];
-sidx_CNTY_COVID_dd = sortrows(idx_CNTY_COVID_dd,1);
+speed = diff(CNTY_COVID')';
+accel = [zeros(225,2) diff(speed')'];
 
+[m,n] = size(accel) ;
+P = 0.80 ;
+split_idx = randperm(m)  ;
+training = accel(split_idx(1:round(P*m)),:); 
+testing = accel(split_idx(round(P*m)+1:end),:);
+
+[trained_idx,centroids] = kmeans(training, 9, 'Replicates', 20);
+
+idx_accel = [trained_idx,training];
+sorted_accel = sortrows(idx_accel,1);
