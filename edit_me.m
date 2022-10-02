@@ -14,9 +14,15 @@ census_kmeans = [idxAsTable CNTY_CENSUS];
 
 figure
 silhouette(CNTY_COVID, idx);
-% title('Edit me');
-%%
 
+%%
+CNTY_COVID_d = diff(CNTY_COVID')';
+CNTY_COVID_dd = diff(CNTY_COVID_d')';
+
+
+
+
+%%
 % put two vectors together to be a table
 %k2 = titles((idx5 == 2),:);
 %s2 = s((idx5 == 2),:);
@@ -53,4 +59,3 @@ for index = 1:225
     end
 end    
 
-% Centriod_1 = 
