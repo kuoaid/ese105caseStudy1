@@ -21,6 +21,7 @@ split_idx = randperm(m)  ;
 training = accel(split_idx(1:round(P*m)),:); 
 testing = accel(split_idx(round(P*m)+1:end),:);
 
+
 [trained_idx,centroids] = kmeans(training, 9, 'Replicates', 20);
 
 idx_accel = [trained_idx,training];
