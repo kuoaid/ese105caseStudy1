@@ -18,6 +18,7 @@ silhouette(CNTY_COVID, idx);
 %%
 CNTY_COVID_d = diff(CNTY_COVID')';
 CNTY_COVID_dd = diff(CNTY_COVID_d')';
+% CNTY_COVID_dd = A .* CNTY_COVID (use for loop to go one row at a time)
 idx_CNTY_COVID_dd = [idx,CNTY_COVID_dd];
 sidx_CNTY_COVID_dd = sortrows(idx_CNTY_COVID_dd,1);
 
