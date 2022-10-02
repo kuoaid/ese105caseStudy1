@@ -31,7 +31,7 @@ data_with_characteristics = [array2table(divisionLabels) CNTY_CENSUS array2table
 testing_data = processed(split_idx(round(P*m)+1:end),:);
 testing_table = data_with_characteristics(split_idx(round(P*m)+1:end),:);
 
-
+%now doing the training set.
 [trained_idx,centroids] = kmeans(training, 9, 'Replicates', 20);
 
 idx_trained_data = [trained_idx,training];
