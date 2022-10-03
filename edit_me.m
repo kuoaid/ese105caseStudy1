@@ -32,7 +32,15 @@ testing_data = processed(split_idx(round(P*m)+1:end),:);
 testing_table = data_with_characteristics(split_idx(round(P*m)+1:end),:);
 
 %now doing the training set.
-[trained_idx,centroids] = kmeans(training, 9, 'Replicates', 20);
+
+% Since CNTY_CENSUS was given from the largerst population to the lowest in
+% each geographical division, we decided to take the 1st, 26th, 51th... as
+% the starting centroids for itteration (a total of 9) for geographical
+% representation.
+%%
+start = [CNTY_COVID(1,:); CNTY_COVID(26,:); CNTY_COVID(51,:); CNTY_COVID(76,:); CNTY_COVID(101,:); CNTY_COVID(126,:); CNTY_COVID(151,:); CNTY_COVID(176,:); CNTY_COVID(201,:)];
+
+[trained_idx,centroids] = kmeans(training, 9, 'start', start);
 
 idx_trained_data = [trained_idx,training];
 sorted_trained_data = sortrows(idx_trained_data,1);
