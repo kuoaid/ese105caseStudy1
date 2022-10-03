@@ -36,3 +36,20 @@ testing_table = data_with_characteristics(split_idx(round(P*m)+1:end),:);
 
 idx_trained_data = [trained_idx,training];
 sorted_trained_data = sortrows(idx_trained_data,1);
+
+%%
+test_nearest = zeros([45,9]);
+min_test_nearest = zeros([45,2]);
+%%
+for index = 1:45
+    for index2 = 1:9
+        test_nearest(index,index2) = norm(testing_data(index,:)-centroids(index2,:));
+    end
+    min_test_nearest(index,1) = find( test_nearest(index,:)==min(test_nearest(index,:)));
+    min_test_nearest(index,2) = min(test_nearest(index,:));
+end
+
+
+
+
+
