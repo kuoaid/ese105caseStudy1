@@ -37,31 +37,36 @@ testing_table = data_with_characteristics(split_idx(round(P*m)+1:end),:);
 % each geographical division, we decided to take the 1st, 26th, 51th... as
 % the starting centroids for itteration (a total of 9) for geographical
 % representation.
-%%
-% start = [CNTY_COVID(1,:); CNTY_COVID(26,:); CNTY_COVID(51,:); CNTY_COVID(76,:); CNTY_COVID(101,:); CNTY_COVID(126,:); CNTY_COVID(151,:); CNTY_COVID(176,:); CNTY_COVID(201,:)];
-% 
-% [trained_idx,centroids] = kmeans(training, 18, 'start', start);
-% 
 
+centroids_table = [];
 for index = (1:9)
-    current_data = training(training(index,1)==index,:)
+    current_data = training(training(:,1)==index,:);
+    [current_idx, current_cs] = kmeans(current_data,2); %2 groups per division
+    centroids_table = [centroids_table; current_cs];
 end
 
+centroids = centroids_table(:,2:end);
 
-idx_trained_data = [trained_idx,training];
-sorted_trained_data = sortrows(idx_trained_data,1);
+% idx_trained_data = [trained_idx,training];
+% sorted_trained_data = sortrows(idx_trained_data,1);
 
 %%test is carried out from here.
-test_nearest = zeros([45,9]);
-min_test_nearest = zeros([45,2]);
 %%
-for index = 1:45
-    for index2 = 1:9
+
+testing_data = testing_data(:,2:end);
+test_nearest = zeros(45,18,'uint32');
+min_test_nearest = [];
+
+
+for index = (1:45)
+    for index2 = (1:18)
         test_nearest(index,index2) = norm(testing_data(index,:)-centroids(index2,:));
     end
     min_test_nearest(index,1) = find( test_nearest(index,:)==min(test_nearest(index,:)));
     min_test_nearest(index,2) = min(test_nearest(index,:));
 end
+
+result = [expected_divisions min_test_nearest];
 
 
 
