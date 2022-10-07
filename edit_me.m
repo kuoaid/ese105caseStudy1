@@ -47,6 +47,22 @@ for index = (1:9)
     centroids_table = [centroids_table; current_cs];
 end
 
+%centroids_table_new = [];
+%for index = (1:18)
+%    if(mod(index,2)==0)
+%        centroids_table_new(index,:) = centroids_table(index-1,:);
+%    else
+%        centroids_table_new(index,:) = centroids_table(index,:);
+%    end
+%end
+
+%centroids = centroids_table_new(:,2:end);
+
+% The centroids_table is a method that use two centroids per group, which
+% will give a higher rate of accuracy comparing with the
+% centroids_table_new, which use one centroid per group. The codes for
+% centroids_table_new are commented above.
+
 centroids = centroids_table(:,2:end);
 
 % idx_trained_data = [trained_idx,training];
@@ -68,10 +84,10 @@ for index = (1:45)
     end
     found_index = find( test_nearest(index,:)==min(test_nearest(index,:)));%find the closest and choose it as current point's centroid
     actual_index = -1;
-    if(mod(found_index,2)==0)
+    if(mod(found_index(1),2)==0)
         actual_index = found_index/2;
     else
-        actual_index = (found_index+1)/2;
+        actual_index = (found_index(1)+1)/2;
     end
     min_test_nearest(index,1) = actual_index;
     min_test_nearest(index,2) = min(test_nearest(index,:));

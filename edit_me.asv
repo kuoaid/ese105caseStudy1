@@ -16,7 +16,10 @@ load('COVIDbyCounty.mat');
 %if you ever change the dataset (linear transformation, etc), reassign the
 %variable processed to point to your newly processed data here:
 
-processed = [divisionLabels CNTY_COVID];%change accel to your new data name.
+% used_data = CNTY_COVID.^2;
+% This actually decreases accuracy a lot.
+used_data = CNTY_COVID;
+processed = [divisionLabels used_data];%change accel to your new data name.
 
 %now
 
@@ -29,7 +32,6 @@ training = processed(split_idx(1:round(P*m)),:);
 %future testing.
 data_with_characteristics = [array2table(divisionLabels) CNTY_CENSUS array2table(processed)];
 testing_data = processed(split_idx(round(P*m)+1:end),:);
-testing_table = data_with_characteristics(split_idx(round(P*m)+1:end),:);
 
 %now doing the training set.
 
@@ -45,6 +47,18 @@ for index = (1:9)
     centroids_table = [centroids_table; current_cs];
 end
 
+%centroids_table_new = [];
+%for index = (1:18)
+%    if(mod(index,2)==0)
+%        centroids_table_new(index,:) = centroids_table(index-1,:);
+%    else
+%        centroids_table_new(index,:) = centroids_table(index,:);
+%    end
+%end
+
+%centroids = centroids_table_new(:,2:end);
+% 
+
 centroids = centroids_table(:,2:end);
 
 % idx_trained_data = [trained_idx,training];
@@ -52,21 +66,40 @@ centroids = centroids_table(:,2:end);
 
 %%test is carried out from here.
 %%
-
-testing_data = testing_data(:,2:end);
+data_tested = testing_data;
+expected_divisions = data_tested(:,1);
+data_tested = data_tested(:,2:end);
 test_nearest = zeros(45,18,'uint32');
 min_test_nearest = [];
 
 
+
 for index = (1:45)
     for index2 = (1:18)
-        test_nearest(index,index2) = norm(testing_data(index,:)-centroids(index2,:));
+        test_nearest(index,index2) = norm(data_tested(index,:)-centroids(index2,:));%put all distances into a table called test_nearest
     end
-    min_test_nearest(index,1) = find( test_nearest(index,:)==min(test_nearest(index,:)));
+    found_index = find( test_nearest(index,:)==min(test_nearest(index,:)));%find the closest and choose it as current point's centroid
+    actual_index = -1;
+    if(mod(found_index(1),2)==0)
+        actual_index = found_index/2;
+    else
+        actual_index = (found_index(1)+1)/2;
+    end
+    min_test_nearest(index,1) = actual_index;
     min_test_nearest(index,2) = min(test_nearest(index,:));
 end
 
 result = [expected_divisions min_test_nearest];
+
+match = 0;
+dataSize = 45;
+for index = (1:45)
+    if(result(index,1)==result(index,2))
+        match = match+1;
+    end
+end
+
+rate = match/dataSize;
 
 
 
